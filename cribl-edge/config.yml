@@ -4,16 +4,13 @@ name: "Cribl Edge"
 description: "Observability agent for collecting and managing logs and metrics"
 url: "https://github.com/pdugas/hass-cribl-edge-addon"
 init: false
-webui: "http://[HOST]:[PORT:9420]/"
 arch:
   - aarch64
   - amd64
 startup: services
-ports:
-  9420/tcp: 9420
-ports_description:
-  9420/tcp: "Cribl Edge API/UI"
+#ports:
+#  9420/tcp: 9420
+#ports_description:
+#  9420/tcp: "Cribl Edge API/UI"
 ingress: true
 ingress_port: 9420
-panel_titme: "Cribl Edge"
-panel_admin: true
