@@ -14,3 +14,6 @@ startup: services
 #  9420/tcp: "Cribl Edge API/UI"
 ingress: true
 ingress_port: 9420
+# so Edge can get host-level process and network  info
+host_pid: true
+host_network: true
