@@ -1,4 +1,4 @@
-# Home Assistant Addons
+# <img src="static/home-assistant-logomark-color-on-light.svg" alt="Home Assistant logo" height="20"/> Home Assistant Addons
 
 ## About
 
@@ -16,7 +16,7 @@ https://github.com/pdugas/hassio-addons
 
 ## Available Add-ons
 
-### [Cribl Edge](./cribl-edge/)
+### <img src="cribl-edge/icon.png" alt="Cribl Edge logo" height="16"/> [Cribl Edge](./cribl-edge/)
 
 ![Latest Version][cribl-edge-version-shield]
 ![Supports aarch64 Architecture][cribl-edge-aarch64-shield]
