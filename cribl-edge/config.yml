@@ -14,9 +14,6 @@ init: false
 ingress: true
 ingress_port: 9420
 
-watchdog: "http://[HOST]:[PORT:9420]/api/v1/health"
-
-panel_admin: true
 panel_title: "Cribl Edge"
 panel_icon: "mdi:cribl-edge"
 
