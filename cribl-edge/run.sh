@@ -16,7 +16,7 @@ if [ -e ${CRIBL_YML} ]; then
   fi
 else 
   mkdir -p ${CRIBL_VOLUME_DIR}/local/edge
-  echo -e "api:\n  baseUrl: $(bashio::addon.ingress_entry)" > ${CRIBL_YML}
+  echo -e "api:\n  baseUrl: $(bashio::addon.ingress_entry)\n  host: 0.0.0.0\n  port: 9420" > ${CRIBL_YML}
 fi
 
 /opt/cribl/bin/cribl start
