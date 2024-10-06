@@ -8,7 +8,12 @@ export CRIBL_DIST_MASTER_URL=$(bashio::config 'CRIBL_DIST_MASTER_URL')
 export CRIBL_API_HOST=0.0.0.0
 
 bashio::log.info "Base URL: \"$(bashio::addon.ingress_entry)\""
-sed -i -e "s|^api:|api:\n  baseUrl: $(bashio::addon.ingress_entry)|" ${CRIBL_VOLUME_DIR}/local/edge/cribl.yml
+CRIBL_YML=${CRIBL_VOLUME_DIR}/local/edge/cribl.yml
+if [ -e ${CRIBL_YML} ]; then
+  sed -i -e "s|^api:|api:\n  baseUrl: $(bashio::addon.ingress_entry)|" ${CRIBL_YML}
+else 
+  echo -e "api:\n  baseUrl: $(bashio::addon.ingress_entry)" > ${CRIBL_YML}
+fi
 
 /opt/cribl/bin/cribl start
 
