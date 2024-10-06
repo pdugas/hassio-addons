@@ -39,7 +39,7 @@ Manage logs and metrics with Cribl Edge.
 
 ...
 
-[cribl-edge-version-shield]: https://img.shields.io/badge/version-v4.5.1-blue.svg
+[cribl-edge-version-shield]: https://img.shields.io/badge/version-v4.8.2-blue.svg
 [cribl-edge-aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [cribl-edge-amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
 [cribl-edge-armhf-shield]: https://img.shields.io/badge/armhf-no-red.svg
