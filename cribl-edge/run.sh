@@ -4,8 +4,8 @@ trap '/opt/cribl/bin/cribl stop; kill `jobs -p`' SIGTERM SIGINT
 bashio::log.info "Cribl Edge initializing"
 bashio::log.info "Dist-Mode: \"$(bashio::config 'CRIBL_DIST_MODE')\""
 export CRIBL_DIST_MODE=$(bashio::config 'CRIBL_DIST_MODE')
-export CRIBL_DIST_MASTER_URL=$(bashio::config 'CRIBL_DIST_MASTER_URL')A
-/opt/cribl/bin/cribl mode-${CRIBL_DIST_MODE} -H 0.0.0.0
+export CRIBL_DIST_MASTER_URL=$(bashio::config 'CRIBL_DIST_MASTER_URL')
+export CRIBL_API_HOST=0.0.0.0
 
 bashio::log.info "Base URL: \"$(bashio::addon.ingress_entry)\""
 sed -i -e "s|^api:|api:\n  baseUrl: $(bashio::addon.ingress_entry)|" ${CRIBL_VOLUME_DIR}/local/edge/cribl.yml
