@@ -5,12 +5,15 @@ bashio::log.info "Cribl Edge initializing"
 bashio::log.info "Dist-Mode: \"$(bashio::config 'CRIBL_DIST_MODE')\""
 export CRIBL_DIST_MODE=$(bashio::config 'CRIBL_DIST_MODE')
 export CRIBL_DIST_MASTER_URL=$(bashio::config 'CRIBL_DIST_MASTER_URL')
-export CRIBL_API_HOST=0.0.0.0
 
 bashio::log.info "Base URL: \"$(bashio::addon.ingress_entry)\""
 CRIBL_YML=${CRIBL_VOLUME_DIR}/local/edge/cribl.yml
 if [ -e ${CRIBL_YML} ]; then
-  sed -i -e "s|^api:|api:\n  baseUrl: $(bashio::addon.ingress_entry)|" ${CRIBL_YML}
+  if grep -q baseUrl ${CRIBL_YML}; then
+    sed -i "s|^  baseUrl:.*$|  baseUrl: $(bashio::addon.ingress_entry)|" ${CRIBL_YML}
+  else
+    sed -i "s|^api:|api:\n  baseUrl: $(bashio::addon.ingress_entry)|" ${CRIBL_YML}
+  fi
 else 
   mkdir -p ${CRIBL_VOLUME_DIR}/local/edge
   echo -e "api:\n  baseUrl: $(bashio::addon.ingress_entry)" > ${CRIBL_YML}
