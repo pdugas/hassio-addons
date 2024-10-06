@@ -12,6 +12,7 @@ CRIBL_YML=${CRIBL_VOLUME_DIR}/local/edge/cribl.yml
 if [ -e ${CRIBL_YML} ]; then
   sed -i -e "s|^api:|api:\n  baseUrl: $(bashio::addon.ingress_entry)|" ${CRIBL_YML}
 else 
+  mkdir -p ${CRIBL_VOLUME_DIR}/local/edge
   echo -e "api:\n  baseUrl: $(bashio::addon.ingress_entry)" > ${CRIBL_YML}
 fi
 
