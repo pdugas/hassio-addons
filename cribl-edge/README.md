@@ -2,7 +2,7 @@
 
 Cribl Edge&trade; for Home Assistant&trade;
 
-![Current Version 4.5.1][version-shield]
+![Current Version 4.14.1][version-shield]
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
 ![Doesn't Support armhf Architecture][armhf-shield]
@@ -39,7 +39,7 @@ This add-on is maintained by [Paul Dugas] in his spare time and is in no way sup
 
 The best place to get access to Paul and the rest of the Edge team is in the `#edge` channel in [Cribl Community Slack]. This project is part of Paul's add-ons repository at <https://github.com/pdugas/hassio-addons/>. Report issues there, please.
 
-[version-shield]: https://img.shields.io/badge/version-4.8.2-blue.svg
+[version-shield]: https://img.shields.io/badge/version-4.14.1-blue.svg
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
 [armhf-shield]: https://img.shields.io/badge/armhf-no-red.svg

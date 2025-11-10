@@ -1,0 +1,7 @@
+### Cribl Version Updates
+
+- Use `https://cdn.cribl.io/dl/cribl_version_urls.json` to find the latest Cribl Edge version and its build hash.
+- To upgrade the version used by this add-on, update the `version` property in `cribl-edge/config.yml`.
+- The build system uses this version to fetch the matching tarball for each architecture during image build.
+
+
