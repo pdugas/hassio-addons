@@ -1,0 +1,78 @@
+name: Check Cribl Edge Version
+
+on:
+  schedule:
+    # Run weekly on Mondays at 06:00 UTC
+    - cron: "0 6 * * 1"
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6.0.2
+
+      - name: Fetch latest Cribl Edge version
+        id: cribl
+        run: |
+          VERSIONS=$(curl -sL https://cdn.cribl.io/dl/cribl_version_urls.json)
+          # Get the last (latest) version entry
+          LATEST=$(echo "$VERSIONS" | jq -r '.[-1]')
+          VERSION=$(echo "$LATEST" | jq -r '.version')
+          # Extract build hash from arm64 URL: cribl-4.16.1-20904e45-linux-arm64.tgz
+          ARM64_URL=$(echo "$LATEST" | jq -r '.arm64')
+          HASH=$(echo "$ARM64_URL" | sed -n 's/.*cribl-[0-9.]*-\([a-f0-9]*\)-linux-arm64\.tgz/\1/p')
+          FULL_VERSION="${VERSION}-${HASH}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "hash=$HASH" >> $GITHUB_OUTPUT
+          echo "full_version=$FULL_VERSION" >> $GITHUB_OUTPUT
+          echo "Latest Cribl Edge: $FULL_VERSION"
+
+      - name: Get current version from config
+        id: current
+        run: |
+          CURRENT=$(grep '^version:' cribl-edge/config.yml | awk '{print $2}')
+          echo "version=$CURRENT" >> $GITHUB_OUTPUT
+          echo "Current version: $CURRENT"
+
+      - name: Check if update needed
+        id: update
+        run: |
+          if [[ "${{ steps.cribl.outputs.full_version }}" != "${{ steps.current.outputs.version }}" ]]; then
+            echo "update_needed=true" >> $GITHUB_OUTPUT
+            echo "New version available: ${{ steps.current.outputs.version }} -> ${{ steps.cribl.outputs.full_version }}"
+          else
+            echo "update_needed=false" >> $GITHUB_OUTPUT
+            echo "Already on latest version: ${{ steps.current.outputs.version }}"
+          fi
+
+      - name: Update config.yml
+        if: steps.update.outputs.update_needed == 'true'
+        run: |
+          sed -i "s/^version: .*/version: ${{ steps.cribl.outputs.full_version }}/" cribl-edge/config.yml
+          echo "Updated cribl-edge/config.yml"
+
+      - name: Create pull request
+        if: steps.update.outputs.update_needed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: cribl-edge-version-update
+          delete-branch: true
+          title: "Bump Cribl Edge to ${{ steps.cribl.outputs.full_version }}"
+          body: |
+            Automated update to pick up the latest Cribl Edge GA release.
+
+            **Version:** ${{ steps.cribl.outputs.full_version }}
+            - Version: ${{ steps.cribl.outputs.version }}
+            - Build hash: ${{ steps.cribl.outputs.hash }}
+
+            Source: [cribl_version_urls.json](https://cdn.cribl.io/dl/cribl_version_urls.json)
+          commit-message: "Bump Cribl Edge to ${{ steps.cribl.outputs.full_version }}"
+          labels: |
+            dependencies
+            cribl-edge
