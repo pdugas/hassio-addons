@@ -6,6 +6,10 @@ on:
     - cron: "0 6 * * 3"
   workflow_dispatch: # Allow manual trigger
 
+permissions:
+  contents: write      # Needed to write to the repository
+  pull-requests: write # Needed to create and manage PRs
+  
 jobs:
   check-version:
     runs-on: ubuntu-latest
